@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="TP"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/mateus/CLionProjects/aeds-2/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/mateus/CLionProjects/aeds-2/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/mateus/CLionProjects/aeds-2/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TP">
+				<Option output="/home/mateus/CLionProjects/aeds-2/cmake-build-debug/TP" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mateus/CLionProjects/aeds-2/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/mateus/CLionProjects/aeds-2/."/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 TP"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TP/fast">
+				<Option output="/home/mateus/CLionProjects/aeds-2/cmake-build-debug/TP" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/mateus/CLionProjects/aeds-2/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/mateus/CLionProjects/aeds-2/."/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 TP/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/mateus/CLionProjects/aeds-2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/arvore_binaria.c">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/arvore_binaria.h">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/busca_bin.c">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/funcionario.c">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/funcionarios.h">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/intercalacao.c">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/intercalacao.h">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/lista.c">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/lista.h">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/main.c">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/manipulacao_arquivos.c">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/manipulacao_arquivos.h">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/ordenacao_busca.c">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/ordenacao_busca.h">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/particoes.c">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/particoes.h">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/pilha.c">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/pilha.h">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/selecao_natural.cpp">
+			<Option target="TP"/>
+		</Unit>
+		<Unit filename="/home/mateus/CLionProjects/aeds-2/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
