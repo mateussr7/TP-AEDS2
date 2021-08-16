@@ -61,5 +61,46 @@ void classificacao_interna(FILE *arq, Lista *nome_arquivos_saida, int M, int nFu
 }
 
 void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, int n){
-    /*PARTE 1 TRABALHO*/
+    int qtdLidos = 0;
+    TFunc** vet = malloc(M * sizeof(TFunc*));
+    int inVet = 0;
+
+    FILE* repo = fopen("repository.dat", "wb+");
+    int inRepo = 0;
+
+
+}
+
+TFunc *getFuncionario(FILE* arq, int* total){
+    fseek(arq, *total * tamanho_registro(), SEEK_SET);
+    TFunc* func = le_funcionario(arq);
+    (*total)++;
+    return func;
+}
+
+void mudarNomesDasParticoes(Lista* nomes, int* numero){
+    if(nomes->prox == NULL){
+        char *novoNome = malloc(5 * sizeof(char));
+        (*numero)++;
+        sprintf(novoNome, "p%d.dat", *numero);
+        nomes->prox = cria(novoNome, NULL);
+    }
+}
+
+int podeLerMais(int lidos, int nFunc){
+    return lidos < nFunc;
+}
+
+FILE *abrirParticao(char* nome){
+    FILE* particao = fopen(nome, "w+");
+    return particao;
+}
+
+int procuraMenor(TFunc* funcionarios[], int tam){
+    int menor = 0;
+    for(int i = 1; i < tam; i++){
+        if(funcionarios[menor]->cod > funcionarios[i]->cod)
+            menor = i;
+    }
+    return menor;
 }
