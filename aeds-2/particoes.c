@@ -62,13 +62,158 @@ void classificacao_interna(FILE *arq, Lista *nome_arquivos_saida, int M, int nFu
 
 void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, int n){
     int qtdLidos = 0;
+    Lista* nomes = nome_arquivos_saida;
     TFunc** vet = malloc(M * sizeof(TFunc*));
     int inVet = 0;
 
     FILE* repo = fopen("repository.dat", "wb+");
     int inRepo = 0;
 
+    Lista* nomesAtuais = nomes;
+    FILE* particaoAtual = NULL;
+    int inParticaoAtual = 0;
 
+    while(podeLerMais(qtdLidos, nFunc)){
+        if(inVet < M){
+            vet[inVet] = getFuncionario(arq, &qtdLidos);
+            inVet++;
+        }
+
+        if(inVet < M)
+            continue;
+
+        int menor = procuraMenor(vet, inVet);
+        if(particaoAtual == NULL){
+            char* nome = nomes->nome;
+            particaoAtual = abrirParticao(nome);
+            nomesAtuais = nomes;
+
+            mudarNomesDasParticoes(nomes, n);
+            nomes = nomes->prox;
+        }
+
+        if(inParticaoAtual >= M){
+            fclose(particaoAtual);
+            particaoAtual = NULL;
+            inParticaoAtual = 0;
+            continue;
+        }
+        fseek(particaoAtual, inParticaoAtual * tamanho_registro(), SEEK_SET);
+        salva_funcionario(vet[menor], particaoAtual);
+        nomesAtuais->tamanho++;
+        inParticaoAtual++;
+
+        if(!podeLerMais(qtdLidos, nFunc)){
+            for(int i = menor; i < inVet - 1; i++){
+                vet[i] = vet[i + 1];
+            }
+            inVet--;
+            break;
+        }
+
+        int code = vet[menor]->cod;
+        free(vet[menor]);
+        vet[menor] = getFuncionario(arq, &qtdLidos);
+
+        if(vet[menor]->cod < code){
+            fseek(repo, inRepo * tamanho_registro(), SEEK_SET);
+            salva_funcionario(vet[menor], repo);
+            inRepo++;
+            if(!podeLerMais(qtdLidos, nFunc)){
+                for(int i = menor; i < inVet; i++){
+                    vet[i] = vet[i + 1];
+                }
+                inVet--;
+                break;
+            }
+            vet[menor] = getFuncionario(arq, &qtdLidos);
+        }
+
+        if(inRepo < n){
+            continue;
+        }
+        fclose(particaoAtual);
+
+        char* nome = nomes->nome;
+        particaoAtual = abrirParticao(nome);
+        nomesAtuais = nomes;
+        mudarNomesDasParticoes(nomes, n);
+        nomes = nomes->prox;
+
+        int* ultimoSalvo = NULL;
+        int i = 0;
+        while (inVet > 0){
+            fseek(particaoAtual, i = tamanho_registro(), SEEK_SET);
+            int menor2 = procuraMenor(vet, inVet);
+            salva_funcionario(vet[menor2], particaoAtual);
+            nomesAtuais->tamanho++;
+            for(int i = menor2; i < inVet - 1; i++){
+                vet[i] = vet[i + 1];
+            }
+            inVet--;
+            i++;
+        }
+
+        for(int i = 0; i < inVet; i++){
+            free(vet[i]);
+        }
+
+        inVet = 0;
+        for(int i = 0; i < inRepo, i++){
+            fseek(repo, i * tamanho_registro(), SEEK_SET);
+            vet[i] = le_funcionario(repo);
+            inVet++;
+        }
+        inRepo = 0;
+
+        fclose(particaoAtual);
+        particaoAtual = NULL;
+        inParticaoAtual = 0;
+    }
+
+    if(particaoAtual){
+        fclose(particaoAtual);
+        particaoAtual = NULL;
+        inParticaoAtual = 0;
+    }
+    int inUltimaParticao = 0;
+    if(!(inVet <= 0 && inRepo <= 0)){
+        if(inRepo > 0){
+            char *nome = nomes->nome;
+            particaoAtual = abrirParticao(nome);
+            nomesAtuais = nomes;
+            inParticaoAtual = 0;
+            for(int i = 0; i < inRepo, i++){
+                fseek(repo, i * tamanho_registro(), SEEK_SET);
+                TFunc* funcionario = le_funcionario(repo);
+
+                fseek(particaoAtual, inParticaoAtual * tamanho_registro(), SEEK_SET);
+                salva_funcionario(funcionario, particaoAtual);
+                nomesAtuais->tamanho++;
+
+                inParticaoAtual++;
+            }
+            fclose(particaoAtual);
+            inParticaoAtual = 0;
+        }
+        if(inVet > 0){
+            mudarNomesDasParticoes(nomes, n);
+            nomes = nomes->prox;
+            char* nome = nomes->nome;
+            particaoAtual = abrirParticao(nome);
+            nomesAtuais = nomes;
+            inParticaoAtual = 0;
+            for(int i = 0; i < inVet; i++){
+                fseek(particaoAtual, i * tamanho_registro(), SEEK_SET);
+                salva_funcionario(vet[i], particaoAtual);
+                nomesAtuais->tamanho++;
+                inParticaoAtual++;
+            }
+            fclose(particaoAtual);
+        }
+    }
+    fclose(repo);
+    free(vet);
 }
 
 TFunc *getFuncionario(FILE* arq, int* total){
