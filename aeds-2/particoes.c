@@ -73,7 +73,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
     FILE* particaoAtual = NULL;
     int inParticaoAtual = 0;
 
-    while(podeLerMais(qtdLidos, nFunc)){
+    while(pode_ler_mais(qtdLidos, nFunc)){
         if(inVet < M){
             vet[inVet] = getFuncionario(arq, &qtdLidos);
             inVet++;
@@ -82,13 +82,13 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
         if(inVet < M)
             continue;
 
-        int menor = procuraMenor(vet, inVet);
+        int menor = procura_menor(vet, inVet);
         if(particaoAtual == NULL){
             char* nome = nomes->nome;
-            particaoAtual = abrirParticao(nome);
+            particaoAtual = abrir_particao(nome);
             nomesAtuais = nomes;
 
-            mudarNomesDasParticoes(nomes, n);
+            mudar_nomes_das_particoes(nomes, n);
             nomes = nomes->prox;
         }
 
@@ -103,7 +103,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
         nomesAtuais->tamanho++;
         inParticaoAtual++;
 
-        if(!podeLerMais(qtdLidos, nFunc)){
+        if(!pode_ler_mais(qtdLidos, nFunc)){
             for(int i = menor; i < inVet - 1; i++){
                 vet[i] = vet[i + 1];
             }
@@ -113,20 +113,20 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
 
         int code = vet[menor]->cod;
         free(vet[menor]);
-        vet[menor] = getFuncionario(arq, &qtdLidos);
+        vet[menor] = pegar_funcionario(arq, &qtdLidos);
 
         if(vet[menor]->cod < code){
             fseek(repo, inRepo * tamanho_registro(), SEEK_SET);
             salva_funcionario(vet[menor], repo);
             inRepo++;
-            if(!podeLerMais(qtdLidos, nFunc)){
+            if(!pode_ler_mais(qtdLidos, nFunc)){
                 for(int i = menor; i < inVet; i++){
                     vet[i] = vet[i + 1];
                 }
                 inVet--;
                 break;
             }
-            vet[menor] = getFuncionario(arq, &qtdLidos);
+            vet[menor] = pegar_funcionario(arq, &qtdLidos);
         }
 
         if(inRepo < n){
@@ -135,9 +135,9 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
         fclose(particaoAtual);
 
         char* nome = nomes->nome;
-        particaoAtual = abrirParticao(nome);
+        particaoAtual = abrir_particao(nome);
         nomesAtuais = nomes;
-        mudarNomesDasParticoes(nomes, n);
+        mudar_nomes_das_particoes(nomes, n);
         nomes = nomes->prox;
 
         int* ultimoSalvo = NULL;
@@ -180,7 +180,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
     if(!(inVet <= 0 && inRepo <= 0)){
         if(inRepo > 0){
             char *nome = nomes->nome;
-            particaoAtual = abrirParticao(nome);
+            particaoAtual = abrir_particao(nome);
             nomesAtuais = nomes;
             inParticaoAtual = 0;
             for(int i = 0; i < inRepo, i++){
@@ -197,10 +197,10 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
             inParticaoAtual = 0;
         }
         if(inVet > 0){
-            mudarNomesDasParticoes(nomes, n);
+            mudar_nomes_das_particoes(nomes, n);
             nomes = nomes->prox;
             char* nome = nomes->nome;
-            particaoAtual = abrirParticao(nome);
+            particaoAtual = abrir_particao(nome);
             nomesAtuais = nomes;
             inParticaoAtual = 0;
             for(int i = 0; i < inVet; i++){
@@ -216,14 +216,14 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
     free(vet);
 }
 
-TFunc *getFuncionario(FILE* arq, int* total){
+TFunc* pegar_funcionario(FILE* arq, int* total){
     fseek(arq, *total * tamanho_registro(), SEEK_SET);
     TFunc* func = le_funcionario(arq);
     (*total)++;
     return func;
 }
 
-void mudarNomesDasParticoes(Lista* nomes, int* numero){
+void mudar_nomes_das_particoes(Lista* nomes, int* numero){
     if(nomes->prox == NULL){
         char *novoNome = malloc(5 * sizeof(char));
         (*numero)++;
@@ -232,16 +232,16 @@ void mudarNomesDasParticoes(Lista* nomes, int* numero){
     }
 }
 
-int podeLerMais(int lidos, int nFunc){
+int pode_ler_mais(int lidos, int nFunc){
     return lidos < nFunc;
 }
 
-FILE *abrirParticao(char* nome){
+FILE* abrir_particao(char* nome){
     FILE* particao = fopen(nome, "w+");
     return particao;
 }
 
-int procuraMenor(TFunc* funcionarios[], int tam){
+int procuta_menor(TFunc* funcionarios[], int tam){
     int menor = 0;
     for(int i = 1; i < tam; i++){
         if(funcionarios[menor]->cod > funcionarios[i]->cod)
