@@ -75,7 +75,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
 
     while(pode_ler_mais(qtdLidos, nFunc)){
         if(inVet < M){
-            vet[inVet] = getFuncionario(arq, &qtdLidos);
+            vet[inVet] = pegar_funcionario(arq, &qtdLidos);
             inVet++;
         }
 
