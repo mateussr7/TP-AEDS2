@@ -144,7 +144,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
         int i = 0;
         while (inVet > 0){
             fseek(particaoAtual, i = tamanho_registro(), SEEK_SET);
-            int menor2 = procuraMenor(vet, inVet);
+            int menor2 = procura_menor(vet, inVet);
             salva_funcionario(vet[menor2], particaoAtual);
             nomesAtuais->tamanho++;
             for(int i = menor2; i < inVet - 1; i++){
