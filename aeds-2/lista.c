@@ -13,6 +13,7 @@ char *cria_str(char *str){
 Lista *cria(char *nome, Lista *prox){
 	Lista *nomes = (Lista *) malloc(sizeof(Lista));
 	nomes->nome = nome;
+	nomes->tamanho = -1;
 	nomes->prox = prox;
 	return nomes;
 }
@@ -21,7 +22,7 @@ void libera(Lista *nomes){
 	Lista *temp = NULL;
 	while(nomes) {
 		temp = nomes->prox;
-		free(nomes->nome);
+		//free(nomes->nome);
 		free(nomes);
 		nomes = temp;
 	}
