@@ -75,6 +75,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
 
     while(pode_ler_mais(qtdLidos, nFunc)){
         if(inVet < M){
+            //Lê o funcionario
             vet[inVet] = pegar_funcionario(arq, &qtdLidos);
             inVet++;
         }
@@ -82,7 +83,10 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
         if(inVet < M)
             continue;
 
+        //Seleciona no array, o registro com a menor chave
         int menor = procura_menor(vet, inVet);
+
+        //abre a partição de saída
         if(particaoAtual == NULL){
             char* nome = nomes->nome;
             particaoAtual = abrir_particao(nome);
@@ -99,12 +103,16 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
             continue;
         }
         fseek(particaoAtual, inParticaoAtual * tamanho_registro(), SEEK_SET);
+
+        //Salva o funcionario na partição de saída
         salva_funcionario(vet[menor], particaoAtual);
         nomesAtuais->tamanho++;
         inParticaoAtual++;
 
+
         if(!pode_ler_mais(qtdLidos, nFunc)){
             for(int i = menor; i < inVet - 1; i++){
+                //Substitui no array em memória, o registro pelo proximo da lista
                 vet[i] = vet[i + 1];
             }
             inVet--;
@@ -115,6 +123,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
         free(vet[menor]);
         vet[menor] = pegar_funcionario(arq, &qtdLidos);
 
+        //Verifica se a chave do registro eh menor que a chave recem gravada, caso seja, salva no repositório, e substitui o registro gravado no repositorio pelo proximo da lista
         if(vet[menor]->cod < code){
             fseek(repo, inRepo * tamanho_registro(), SEEK_SET);
             salva_funcionario(vet[menor], repo);
