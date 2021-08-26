@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "funcionarios.h"
+#include "pilha.h"
 #define SEM_FILHO -1
 
 /* Cada nó da árvore binária em memória interna armazena a informação do indice primario,
@@ -25,9 +25,6 @@ typedef struct No{
 
 }TNoAX;
 
-
-/* Cada nó da árvore binária de vencedores armazena o endereço do nó folha vencedor,
-a pilha que representa a partição e o funciconário vencedor */
 typedef struct noVencedores{
     struct noVencedores *endVencedor;
     TFunc *vencedor;
@@ -37,6 +34,7 @@ typedef struct noVencedores{
     struct noVencedores *dir;
     struct noVencedores *esq;
 }TNoV;
+
 
 /*cria uma árvore binária vazia inicializando o nó raiz com null, com nenhum elemento */
 TNoA *inicializa_arvore_binaria();
@@ -59,7 +57,6 @@ int busca_arvore_binaria(TNoA* t, int chave);
 /*cria somente um nó solto*/
 TNoA *criaNo_arvore_binaria(int chave, int rrn);
 
-/*cria um nó vencedor solto*/
 TNoV *criaNo_arvore_binaria_vencedores(TPilha *pilha, int *tamanhoPilha);
 
 /*faz uma inserção solta na raiz*/
@@ -78,5 +75,6 @@ void criar_arvore_binaria_externa(FILE *arq_entrada, FILE*arq_saida);
 /*funções que permitem buscar uma chave na árvore binária externa*/
 void buscar_recursivo_arvore_binaria_externa(long localraiz, int chave, TFunc** resposta, FILE* arq);
 TFunc* pesquisar_arvore_binaria_externa(int chave, FILE* arq);
+
 
 #endif

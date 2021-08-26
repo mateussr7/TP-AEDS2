@@ -1,8 +1,13 @@
 #include "intercalacao.h"
-#include "funcionarios.h"
+#include "arvore_binaria.h"
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+
+#define HIGH_VALUE INT_MAX
+#define POSICAO -1
+
 
 void intercalacao_basico(char *nome_arquivo_saida, int num_p, Lista *nome_particoes) {
 
@@ -87,5 +92,120 @@ void intercalacao_basico(char *nome_arquivo_saida, int num_p, Lista *nome_partic
 
 void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_arquivo_saida, int num_p){
     //implementar segunda parte do trabalho
-}
 
+    TFunc *funHV = funcionario(INT_MAX,"MAXIMO","","",0);
+    TPilha *pilhaHV = (TPilha*)malloc(sizeof(TPilha));
+    int valor[1];
+    int *vetTopInicial = (int*) malloc(sizeof(int)*num_p);
+    //memcpy(vetTopInicial,vetTop,sizeof(vetTop)*num_p);
+        for (int i = 0; i<num_p; i++){
+            vetTopInicial[i] = vetTop[i];
+        }
+
+    //TPilha **pilha = pilha1;
+
+    pilhaHV->info = funHV;
+    pilhaHV->p = valor;
+
+
+    //TNoV folhas[num_p];
+    int fim = 0; //variavel que controla fim do procedimento
+    FILE *out; //declara ponteiro para arquivo
+
+    //abre arquivo de saida para escrita
+    if ((out = fopen(nome_arquivo_saida, "wb")) == NULL) {
+        printf("Erro ao abrir arquivo de sa?da\n");
+    } else {
+        int cont;
+        //TNoV *aux = (TNoV*)malloc(sizeof(TNoV));
+        int quantiaFile = 0;
+        TNoV **folhas = (TNoV**)malloc(sizeof(TNoV*)*num_p);
+            TNoV **folhas1 = (TNoV**)malloc(sizeof(TNoV*)*num_p);
+        while (1){
+
+            cont = 0;
+            for(int i=0; i<num_p; i++){
+                if(vetTop[i] > -1){
+                    folhas[i] = criaNo_arvore_binaria_vencedores(pilha[i], &vetTop[i]);
+                    folhas[i]->vencedor = pilha[i][vetTop[i]].info;
+                    folhas1[i] = criaNo_arvore_binaria_vencedores(pilha[i], &vetTop[i]);
+                    folhas1[i]->vencedor = pilha[i][vetTop[i]].info;
+                    cont = 1;
+                }else{
+                    folhas[i] = criaNo_arvore_binaria_vencedores(pilhaHV,valor);
+                    folhas[i]->vencedor = funHV;
+                    folhas1[i] = criaNo_arvore_binaria_vencedores(pilhaHV,valor);
+                    folhas1[i]->vencedor = funHV;
+                }
+
+            }
+            if (cont == 0){
+                break;
+            }
+            int j=0;
+            int verifica = 1;
+            while((folhas[j] != NULL) && verifica == 1){
+                //cria no pai
+                TNoV *aux = (TNoV*)malloc(sizeof(TNoV));
+
+                if(folhas[j+1] != NULL){
+                    if(folhas[j]->vencedor->cod < folhas[j+1]->vencedor->cod){
+                        aux = folhas[j];
+                    }
+                    else{
+                        aux = folhas[j+1];
+                    }
+
+                    //adiciona propiedade do pai da folha[j] e da folha[j+1]
+
+                    aux->dir = folhas1[j+1];
+                    aux->esq = folhas1[j];
+                    aux->endVencedor = aux;
+                    folhas1[j+1]->pai= aux;
+                    folhas1[j]->pai= aux;
+
+                    //remove as duas folhas da lista e coloca o no pai nela
+
+                    folhas[j+1] = NULL;
+                    folhas[j] = NULL;
+                    folhas[j/2] = aux;
+                }else{
+                    aux = folhas[j];
+                    folhas[j] = NULL;
+                    folhas[j/2] = aux;
+                    if (j==0){
+                        verifica = 0;
+                    }
+                }
+
+                j = j+2;
+                if(folhas[j] == NULL){
+                    j=0;
+                }
+
+            }
+
+            fseek(out, quantiaFile * tamanho_registro(), SEEK_SET);
+            salva_funcionario(folhas[0]->vencedor,out);
+            quantiaFile++;
+            (*folhas[0]->tamanhoPilha)--;
+            for(int i=0;i<num_p;i++){
+                folhas1[i]=NULL;
+                folhas[i]=NULL;
+            }
+
+        }
+        for(int i=0;i<num_p;i++){
+                free(folhas1[i]);
+                free(folhas[i]);
+            }
+
+        for (int i = 0; i<num_p; i++){
+            vetTop[i] = vetTopInicial[i];
+        }
+        free(vetTopInicial);
+
+    }
+
+    printf("\nEBA");
+}

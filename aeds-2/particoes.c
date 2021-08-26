@@ -1,9 +1,8 @@
-
-#include <funcionarios.h>
+#include "funcionarios.h"
 #include <stdlib.h>
 #include <limits.h>
 
-#include <particoes.h>
+#include "particoes.h"
 
 void classificacao_interna(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc) {
     rewind(arq); //posiciona cursor no inicio do arquivo
@@ -75,7 +74,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
 
     while(pode_ler_mais(qtdLidos, nFunc)){
         if(inVet < M){
-            //LÃª o funcionario
+            //Lê o funcionario
             vet[inVet] = pegar_funcionario(arq, &qtdLidos);
             inVet++;
         }
@@ -86,7 +85,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
         //Seleciona no array, o registro com a menor chave
         int menor = procura_menor(vet, inVet);
 
-        //abre a partiÃ§Ã£o de saÃ­da
+        //abre a partição de saída
         if(particaoAtual == NULL){
             char* nome = nomes->nome;
             particaoAtual = abrir_particao(nome);
@@ -104,15 +103,16 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
         }
         fseek(particaoAtual, inParticaoAtual * tamanho_registro(), SEEK_SET);
 
-        //Salva o funcionario na partiÃ§Ã£o de saÃ­da
+        //Salva o funcionario na partição de saída
         salva_funcionario(vet[menor], particaoAtual);
+        imprime_funcionario(vet[menor]);
         nomesAtuais->tamanho++;
         inParticaoAtual++;
 
 
         if(!pode_ler_mais(qtdLidos, nFunc)){
             for(int i = menor; i < inVet - 1; i++){
-                //Substitui no array em memÃ³ria, o registro pelo proximo da lista
+                //Substitui no array em memória, o registro pelo proximo da lista
                 vet[i] = vet[i + 1];
             }
             inVet--;
@@ -122,11 +122,11 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
         int code = vet[menor]->cod;
         free(vet[menor]);
         vet[menor] = pegar_funcionario(arq, &qtdLidos);
-
-        //Verifica se a chave do registro eh menor que a chave recem gravada, caso seja, salva no repositÃ³rio, e substitui o registro gravado no repositorio pelo proximo da lista
+        //Verifica se a chave do registro eh menor que a chave recem gravada, caso seja, salva no repositório, e substitui o registro gravado no repositorio pelo proximo da lista
         if(vet[menor]->cod < code){
             fseek(repo, inRepo * tamanho_registro(), SEEK_SET);
             salva_funcionario(vet[menor], repo);
+            imprime_funcionario(vet[menor]);
             inRepo++;
             if(!pode_ler_mais(qtdLidos, nFunc)){
                 for(int i = menor; i < inVet; i++){
@@ -155,6 +155,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
             fseek(particaoAtual, i = tamanho_registro(), SEEK_SET);
             int menor2 = procura_menor(vet, inVet);
             salva_funcionario(vet[menor2], particaoAtual);
+            imprime_funcionario(vet[menor2]);
             nomesAtuais->tamanho++;
             for(int i = menor2; i < inVet - 1; i++){
                 vet[i] = vet[i + 1];
@@ -168,7 +169,7 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
         }
 
         inVet = 0;
-        for(int i = 0; i < inRepo, i++){
+        for(int i = 0; i < inRepo; i++){
             fseek(repo, i * tamanho_registro(), SEEK_SET);
             vet[i] = le_funcionario(repo);
             inVet++;
@@ -192,12 +193,13 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
             particaoAtual = abrir_particao(nome);
             nomesAtuais = nomes;
             inParticaoAtual = 0;
-            for(int i = 0; i < inRepo, i++){
+            for(int i = 0; i < inRepo; i++){
                 fseek(repo, i * tamanho_registro(), SEEK_SET);
                 TFunc* funcionario = le_funcionario(repo);
 
                 fseek(particaoAtual, inParticaoAtual * tamanho_registro(), SEEK_SET);
                 salva_funcionario(funcionario, particaoAtual);
+                imprime_funcionario(funcionario);
                 nomesAtuais->tamanho++;
 
                 inParticaoAtual++;
@@ -212,9 +214,12 @@ void selecao_natural(FILE *arq, Lista *nome_arquivos_saida, int M, int nFunc, in
             particaoAtual = abrir_particao(nome);
             nomesAtuais = nomes;
             inParticaoAtual = 0;
+
             for(int i = 0; i < inVet; i++){
+
                 fseek(particaoAtual, i * tamanho_registro(), SEEK_SET);
                 salva_funcionario(vet[i], particaoAtual);
+                imprime_funcionario(vet[i]);
                 nomesAtuais->tamanho++;
                 inParticaoAtual++;
             }
@@ -232,12 +237,13 @@ TFunc* pegar_funcionario(FILE* arq, int* total){
     return func;
 }
 
-void mudar_nomes_das_particoes(Lista* nomes, int* numero){
+void mudar_nomes_das_particoes(Lista* nomes, int numero){
     if(nomes->prox == NULL){
         char *novoNome = malloc(5 * sizeof(char));
-        (*numero)++;
-        sprintf(novoNome, "p%d.dat", *numero);
+        numero++;
+        sprintf(novoNome, "p%d.dat", numero);
         nomes->prox = cria(novoNome, NULL);
+
     }
 }
 
@@ -250,7 +256,7 @@ FILE* abrir_particao(char* nome){
     return particao;
 }
 
-int procuta_menor(TFunc* funcionarios[], int tam){
+int procura_menor(TFunc* funcionarios[], int tam){
     int menor = 0;
     for(int i = 1; i < tam; i++){
         if(funcionarios[menor]->cod > funcionarios[i]->cod)

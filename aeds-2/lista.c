@@ -59,5 +59,3 @@ void imprime(Lista *nomes){
 	}
 	printf("\n\n");
 }
-
-

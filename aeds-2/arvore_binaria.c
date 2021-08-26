@@ -68,8 +68,6 @@ TNoA *criaNo_arvore_binaria(int chave, int rrn) {
     return novo;
 }
 
-/*cria o nó da árvore binária de vencedores e retorna seu ponteiro,
-é preciso do ponteiro da pilha e do tamanho que já são adicionados à instância*/
 TNoV *criaNo_arvore_binaria_vencedores(TPilha *pilha, int *tamanhoPilha){
     TNoV *novo;
     novo = (TNoV*)malloc(sizeof(TNoV));

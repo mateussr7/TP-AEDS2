@@ -23,6 +23,7 @@ TFunc *push(TPilha *pilha, int lim, int *topo, TFunc *info, int p){
         *topo = *topo + 1;
         pilha[*topo].info = info;
         pilha[*topo].p = p;
+        puts(pilha[*topo].info->nome);
         return info;
     }
 }
@@ -58,7 +59,6 @@ int peek_fp(TPilha *pilha, int base, int *topo) {
 }
 
 void imprime_pilha(TPilha *pilha, int *topo) {
-    printf("\nEstado atual da Pilha:\n");
     for (int i = *topo; i >= 0; i--) {
         printf("posição [%d]: %d\n", i, pilha[i].info->cod);
     }
