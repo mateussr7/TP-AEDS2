@@ -25,6 +25,19 @@ typedef struct No{
 
 }TNoAX;
 
+
+/* Cada nó da árvore binária de vencedores armazena o endereço do nó folha vencedor,
+a pilha que representa a partição e o funciconário vencedor */
+typedef struct noVencedores{
+    struct noVencedores *endVencedor;
+    TFunc *vencedor;
+    TPilha *pilha;
+    int *tamanhoPilha;
+    struct noVencedores *pai;
+    struct noVencedores *dir;
+    struct noVencedores *esq;
+}TNoV;
+
 /*cria uma árvore binária vazia inicializando o nó raiz com null, com nenhum elemento */
 TNoA *inicializa_arvore_binaria();
 
@@ -45,6 +58,9 @@ int busca_arvore_binaria(TNoA* t, int chave);
 
 /*cria somente um nó solto*/
 TNoA *criaNo_arvore_binaria(int chave, int rrn);
+
+/*cria um nó vencedor solto*/
+TNoV *criaNo_arvore_binaria_vencedores(TPilha *pilha, int *tamanhoPilha);
 
 /*faz uma inserção solta na raiz*/
 void inserir_arvore_binaria_RAIZ(TNoA *t, int chave, int rrn);
